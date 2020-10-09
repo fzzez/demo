@@ -14,11 +14,17 @@ import java.util.List;
 public interface QuestionMapper {
 
     @Insert("insert into question (title,description,gmt_create,gmt_modified,tag,creator) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{tag},#{creator})")
-    public void insert(Question question);
+    void insert(Question question);
 
     @Select("select * from question limit #{offset}, #{size}")
-    public List<Question> list(@Param("offset") Integer offset,@Param("size") Integer size);
+    List<Question> list(@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select count(1) from question")
     Integer count();
+
+    @Select("select * from question where creator = #{id} limit #{offset}, #{size}")
+    List<Question> listById(@Param("id") Integer userId, @Param("offset") Integer offset, @Param("size") Integer size);
+
+    @Select("select count(1) from question where creator = #{id}")
+    Integer countByUserId(@Param("id") Integer userId);
 }
